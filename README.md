@@ -1,4 +1,10 @@
 # bladeRF Source #
+Warning, this experimental branch overclocks the AD9361 and NIOS2 core.
+No warranty is provided for this code!  It may burn up the AD9361 or FPGA if the temp goes significantly above normal room temp.  This does not overvolt the AD9361 or FPGA!
+Please use bladeRF-cli to remove any autoloading FPGA image, because the baud rate is changed for the FX3 FPGA communication.
+You will need to build the FX3 image, FPGA Image, and the host software to make this repo work.
+
+
 This repository contains all the source code required to program and interact with a bladeRF platform, including firmware for the Cypress FX3 USB controller, HDL for the Altera Cyclone IV FPGA, and C code for the host side libraries, drivers, and utilities.
 The source is organized as follows:
 

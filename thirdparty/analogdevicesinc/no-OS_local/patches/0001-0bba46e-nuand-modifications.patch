@@ -735,10 +735,10 @@ index b20cb71..0491f91 100644
 +	if (ret < 0)
 +		return ret;
 +	ret = ad9361_dig_tune(phy, ((conv->chip_info->num_channels > 4) ||
-+		u32tmp) ? 0 : 61440000, flags);
++		u32tmp) ? 0 : 245760000, flags);
 +#else
  	ret = ad9361_dig_tune(phy, ((conv->chip_info->num_channels > 4) ||
- 		axiadc_read(st, 0x0004)) ? 0 : 61440000, flags);
+ 		axiadc_read(st, 0x0004)) ? 0 : 245760000, flags);
 +#endif // NUAND_MODIFICATIONS
  	if (ret < 0)
  		return ret;
@@ -748,10 +748,10 @@ index b20cb71..0491f91 100644
 +		ret = axiadc_read(st, ADI_REG_ID, &u32tmp);
 +		if (ret < 0)
 +			return ret;
-+		ret = ad9361_dig_tune(phy, u32tmp ?  0 : 61440000, flags & BE_VERBOSE);
++		ret = ad9361_dig_tune(phy, u32tmp ?  0 : 245760000, flags & BE_VERBOSE);
 +#else
  		ret = ad9361_dig_tune(phy, (axiadc_read(st, ADI_REG_ID)) ?
- 			0 : 61440000, flags & BE_VERBOSE);
+ 			0 : 245760000, flags & BE_VERBOSE);
 +#endif // NUAND_MODIFICATIONS
  		if (ret < 0)
  			return ret;

@@ -88,7 +88,8 @@ architecture arch of tx is
 
     signal sample_fifo_holdoff            : std_logic;
     signal sample_fifo_holdoff_i          : std_logic;
-
+    signal first_done 			  : std_logic;
+    signal tmp_samples			  : sample_streams_t(0 to NUM_STREAMS-1);
 begin
 
     set_timestamp_reset : process(tx_clock, tx_reset)
@@ -106,7 +107,7 @@ begin
 
     -- TX sample fifo
     sample_fifo.aclr   <= tx_reset;
-    sample_fifo.rclock <= tx_clock;
+    sample_fifo.rclock <= tx_clock and (first_done or tx_reset);
     U_tx_sample_fifo : entity work.tx_fifo
         generic map (
             LPM_NUMWORDS        => 2**(sample_fifo.wused'length)
@@ -153,7 +154,33 @@ begin
         );
 
     loopback_fifo_wclock <= tx_clock;
-
+    unpack_proc : process( tx_clock )
+    begin
+        if( rising_edge(tx_clock) ) then
+		if (tx_reset='0') then
+	        	if (first_done = '0') then
+						dac_streams(0).data_i<="0000" & tmp_samples(0).data_i(7 downto 0) & "0000";
+						dac_streams(0).data_q<="0000" & tmp_samples(0).data_q(7 downto 0) & "0000";
+						dac_streams(0).data_v<=tmp_samples(0).data_v;
+						dac_streams(1).data_i<="0000" & tmp_samples(1).data_i(7 downto 0) & "0000";
+						dac_streams(1).data_q<="0000" & tmp_samples(1).data_q(7 downto 0) & "0000";
+						dac_streams(1).data_v<=tmp_samples(1).data_v;
+				first_done <= '1';
+			else
+						dac_streams(0).data_i<="0000" & tmp_samples(0).data_i(15 downto 8) & "0000";
+						dac_streams(0).data_q<="0000" & tmp_samples(0).data_q(15 downto 8) & "0000";
+						dac_streams(0).data_v<=tmp_samples(0).data_v;
+						dac_streams(1).data_i<="0000" & tmp_samples(1).data_i(15 downto 8) & "0000";
+						dac_streams(1).data_q<="0000" & tmp_samples(1).data_q(15 downto 8) & "0000";
+						dac_streams(1).data_v<=tmp_samples(1).data_v;
+				first_done <= '0';
+				
+			end if;
+		else
+			first_done <= '0';
+		end if;
+        end if;
+    end process;
     loopback_proc : process( tx_clock )
     begin
         if( rising_edge(tx_clock) ) then
@@ -219,7 +246,7 @@ begin
             meta_fifo_read      =>  meta_fifo.rreq,
 
             in_sample_controls  =>  dac_controls,
-            out_samples         =>  dac_streams,
+            out_samples         =>  tmp_samples,
 
             underflow_led       =>  tx_underflow_led,
             underflow_count     =>  open,

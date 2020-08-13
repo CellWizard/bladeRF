@@ -301,7 +301,7 @@ set_instance_parameter_value rx_trigger_ctl {simDrivenValue} {0.0}
 set_instance_parameter_value rx_trigger_ctl {width} {8}
 
 add_instance system_clock clock_source
-set_instance_parameter_value system_clock {clockFrequency} {80000000.0}
+set_instance_parameter_value system_clock {clockFrequency} {122880000.0}
 set_instance_parameter_value system_clock {clockFrequencyKnown} {1}
 set_instance_parameter_value system_clock {resetSynchronousEdges} {DEASSERT}
 

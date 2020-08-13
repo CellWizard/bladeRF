@@ -94,7 +94,13 @@ architecture arch of rx is
         RX_MUX_ENTROPY,
         RX_MUX_DIGITAL_LOOPBACK
     );
-
+    
+    signal first1_valid 		    : std_logic		  ;
+    signal first1_data_i		    : signed(7 downto 0);
+    signal first1_data_q		    : signed(7 downto 0);
+    signal first2_valid 		    : std_logic		  ;
+    signal first2_data_i		    : signed(7 downto 0);
+    signal first2_data_q		    : signed(7 downto 0);
     signal rx_mux_mode              : rx_mux_mode_t       := RX_MUX_NORMAL;
 
     signal sample_fifo              : rx_fifo_t           := RX_FIFO_T_DEFAULT;
@@ -331,10 +337,57 @@ begin
         if( rx_reset = '1' ) then
             mux_streams  <= (others => ZERO_SAMPLE);
             rx_gen_mode  <= '0';
+	    first2_valid <= '0';
+	    first1_valid <= '0';
         elsif( rising_edge(rx_clock) ) then
             case rx_mux_mode is
                 when RX_MUX_NORMAL =>
-                    mux_streams <= adc_streams;
+	            if ((adc_controls(0).enable = '1') and (adc_controls(1).enable = '1')) then
+                        if (not(first1_valid = first2_valid)) then
+                                first1_valid <= '0';
+                                first2_valid <= '0';
+                        end if;
+                    end if;
+		    if (adc_streams(0).data_v = '1') then
+			    if ((first1_valid = '1') or (first2_valid = '1')) then
+				if (first1_valid = '1') then
+                            		mux_streams(0).data_i <= adc_streams(0).data_i(11 downto 4) & first1_data_i;
+                                        mux_streams(0).data_q <= adc_streams(0).data_q(11 downto 4) & first1_data_q;
+					mux_streams(0).data_v <= '1';
+				else
+	                            mux_streams(0).data_v <= '0';
+				end if;
+				if (first2_valid = '1') then
+	        	                mux_streams(1).data_i <= adc_streams(1).data_i(11 downto 4) & first2_data_i;
+		                        mux_streams(1).data_q <= adc_streams(1).data_q(11 downto 4) & first2_data_q;
+                            		mux_streams(1).data_v <= '1';
+				else
+	                            mux_streams(1).data_v <= '0';
+				end if;
+			    else
+        	                for i in mux_streams'range loop
+	                            mux_streams(i).data_v <= '0';
+                	        end loop;
+			    end if;
+	                    if (first1_valid = '0') then
+                	        first1_data_i <= adc_streams(0).data_i(11 downto 4);
+        	                first1_data_q <= adc_streams(0).data_q(11 downto 4);
+	                        first1_valid <= '1';
+                	    else
+        	                first1_valid <= '0';
+	                    end if;
+                	    if (first2_valid = '0') then
+        	                first2_data_i <= adc_streams(1).data_i(11 downto 4); 
+	                        first2_data_q <= adc_streams(1).data_q(11 downto 4);
+                        	first2_valid <= '1';
+                	    else
+        	                first2_valid <= '0';
+	                    end if;
+		    else
+			for i in mux_streams'range loop
+                            mux_streams(i).data_v <= '0';
+                        end loop;
+		    end if;
                     if( trigger_signal_out_sync = '0' ) then
                         for i in mux_streams'range loop
                             mux_streams(i).data_v <= '0';

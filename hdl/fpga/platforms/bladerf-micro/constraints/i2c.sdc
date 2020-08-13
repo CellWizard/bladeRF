@@ -22,7 +22,7 @@
 
 # Create generated clocks. Input clock to the SPI block in the common_system
 # is 80 MHz, actual output clock is 400 kHz
-set pwr_scl_divisor 200
+set pwr_scl_divisor 308 
 
 create_generated_clock -name i2c_scl_reg -source [get_pins $system_clock] -divide_by $pwr_scl_divisor [get_registers {*bit_controller|scl_oen}]
 create_generated_clock -name pwr_scl_pin -source [get_registers -no_duplicates {*bit_controller|scl_oen}] [get_ports {pwr_scl}]
