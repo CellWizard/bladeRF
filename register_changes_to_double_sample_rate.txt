@@ -1,0 +1,40 @@
+// For source
+  bladerf_set_rfic_register(_dev.get(),0x003,0x54);
+  bladerf_set_rfic_register(_dev.get(),0x1e0,0xBF);
+  bladerf_set_rfic_register(_dev.get(),0x1e4,0xFF);
+  bladerf_set_rfic_register(_dev.get(),0x1f2,0xFF);
+  bladerf_set_rfic_register(_dev.get(),0x1e6,0x87);
+  bladerf_set_rfic_register(_dev.get(),0x1e7,0x00);
+  bladerf_set_rfic_register(_dev.get(),0x1e8,0x00);
+  bladerf_set_rfic_register(_dev.get(),0x1e9,0x00);
+  bladerf_set_rfic_register(_dev.get(),0x1ea,0x00);
+  bladerf_set_rfic_register(_dev.get(),0x1eb,0x00);
+  bladerf_set_rfic_register(_dev.get(),0x1ec,0x00);
+  bladerf_set_rfic_register(_dev.get(),0x1ed,0x00);
+  bladerf_set_rfic_register(_dev.get(),0x1ee,0x00);
+  bladerf_set_rfic_register(_dev.get(),0x1ef,0x00);
+  bladerf_set_rfic_register(_dev.get(),0x1e0,0xBF);
+  bladerf_set_rfic_register(_dev.get(),0x1e4,0xFF);
+  bladerf_set_rfic_register(_dev.get(),0x1f2,0xFF);
+  bladerf_set_rfic_register(_dev.get(),0x1e6,0x87);
+  bladerf_set_rfic_register(_dev.get(),0x1e7,0x00);
+  bladerf_set_rfic_register(_dev.get(),0x1e8,0x00);
+  bladerf_set_rfic_register(_dev.get(),0x1e9,0x00);
+  bladerf_set_rfic_register(_dev.get(),0x1ea,0x00);
+  bladerf_set_rfic_register(_dev.get(),0x1eb,0x00);
+  bladerf_set_rfic_register(_dev.get(),0x1ec,0x00);
+  bladerf_set_rfic_register(_dev.get(),0x1ed,0x00);
+  bladerf_set_rfic_register(_dev.get(),0x1ee,0x00);
+  bladerf_set_rfic_register(_dev.get(),0x1ef,0x00);
+  bladerf_set_rfic_register(_dev.get(),0x3f6,0x03);
+// for sink
+  bladerf_set_rfic_register(_dev.get(),0x002,0x54);
+  bladerf_set_rfic_register(_dev.get(),0xc2,0x9f);
+  bladerf_set_rfic_register(_dev.get(),0xc3,0x9f);
+  bladerf_set_rfic_register(_dev.get(),0xc4,0x9f);
+  bladerf_set_rfic_register(_dev.get(),0xc5,0x9f);
+  bladerf_set_rfic_register(_dev.get(),0xc6,0x9f);
+  bladerf_set_rfic_register(_dev.get(),0xc7,0x00);
+  bladerf_set_rfic_register(_dev.get(),0xc8,0x00);
+  bladerf_set_rfic_register(_dev.get(),0xc9,0x00);
+
