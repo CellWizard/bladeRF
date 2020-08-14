@@ -1,0 +1,4 @@
+[submodule "thirdparty/analogdevicesinc/no-OS"]
+	path = thirdparty/analogdevicesinc/no-OS
+	url = https://github.com/CellWizard/no-OS.git
+	branch = hack-double_sample_rate
